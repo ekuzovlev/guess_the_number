@@ -51,7 +51,7 @@ function checkNumber(guessNumber) {
     if (userInput === guessNumber) {
       alert('Поздравляю, Вы угадали!!!');
     } else if (userInput === 0){
-      return;
+      return alert('Игра окончена');
     } else if (userInput > guessNumber) {
       alert('Загаданное число меньше');
       return checkNumber(guessNumber);
