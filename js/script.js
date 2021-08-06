@@ -1,23 +1,5 @@
 'use strict';
 
-// Написать игровой бот.
-// "Загадывание случайного числа от 1 до 100"
-// Используйте функции alert, confirm, prompt для общения с пользователем.
-// Что должна делать программа:
-// — спрашивает пользователя: "Угадай число от 1 до 100".
-// — если пользовательское число больше, то бот выводит "Загаданное число меньше" и
-//   предлагает ввести новый вариант;
-// — если пользовательское число меньше, то бот выводит "Загаданное число больше" и
-//   предлагает ввести новый вариант;
-// — если пользователь ввел не число, то выводит сообщение "Введи число!" и предлагает
-//   ввести новый вариант;
-// — если пользователь нажимает "Отмена", то игра заканчивается и выводится сообщение "Игра окончена".
-// —  если пользовательское число равно загаданному, то игра заканчивается и выводит сообщение
-//   "Поздравляю, Вы угадали!!!".
-
-// Программа должны быть выполнена с помощью рекурсии, без единого цикла.
-// Загаданное число должно храниться «в замыкании»
-
 let isNumber = function(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 };
@@ -40,24 +22,41 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
 }
 
-const guessNumber = getRandomIntInclusive(1, 100);
+let guessNumber = getRandomIntInclusive(1, 100);
 console.log(guessNumber);
-
+let wrongAnswer = 0;
 function checkNumber(guessNumber) {
   let userInput = getUserInput();
-  console.log('userInput:', userInput); //Чтобы легче было угадать ;-)
+
+  let tryAgain = function() {
+    let choice = confirm('Попытки закончились, Хотите сыграть еще?');
+    if (choice === true) {
+    let guessNumber = getRandomIntInclusive(1, 100);
+    console.log(guessNumber);
+      checkNumber(guessNumber);
+    } else {
+      alert('До свидания');
+    }
+  };
 
   function checkResult(){
     if (userInput === guessNumber) {
       alert('Поздравляю, Вы угадали!!!');
+      wrongAnswer = 0;
+      return tryAgain();
     } else if (userInput === 0){
       return;
-    } else if (userInput > guessNumber) {
-      alert('Загаданное число меньше');
+    } else if (userInput > guessNumber && wrongAnswer < 9) {
+      wrongAnswer++;
+      alert(`Загаданное число меньше, осталось ${10 - wrongAnswer} попыток`);
       return checkNumber(guessNumber);
-    } else if (userInput < guessNumber) {
-      alert('Загаданное число больше');
+    } else if (userInput < guessNumber && wrongAnswer < 9) {
+      wrongAnswer++;
+      alert(`Загаданное число больше, осталось ${10 - wrongAnswer} попыток`);
       return checkNumber(guessNumber);
+    } else  {
+      wrongAnswer = 0;
+      return tryAgain();
     }
   }
   checkResult();
