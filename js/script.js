@@ -7,7 +7,8 @@ let isNumber = function(n) {
 let getUserInput = function() {
   let userInput = prompt('Угадай число от 1 до 100');
     if (userInput === null) {
-      return 0;
+      alert('До свидания');
+      return;
     } else if (isNumber(userInput)){
       return +userInput;
     } else {
@@ -29,7 +30,7 @@ function checkNumber(guessNumber) {
   let userInput = getUserInput();
 
   let tryAgain = function() {
-    let choice = confirm('Попытки закончились, Хотите сыграть еще?');
+    let choice = confirm('Хотите сыграть еще?');
     if (choice === true) {
     let guessNumber = getRandomIntInclusive(1, 100);
     console.log(guessNumber);
@@ -44,8 +45,6 @@ function checkNumber(guessNumber) {
       alert('Поздравляю, Вы угадали!!!');
       wrongAnswer = 0;
       return tryAgain();
-    } else if (userInput === 0){
-      return;
     } else if (userInput > guessNumber && wrongAnswer < 9) {
       wrongAnswer++;
       alert(`Загаданное число меньше, осталось ${10 - wrongAnswer} попыток`);
